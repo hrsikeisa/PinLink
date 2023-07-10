@@ -4,23 +4,30 @@ import { NextSeo } from 'next-seo'
 
 import User from 'components/PinLink'
 import { TUser } from 'types/user'
-import { getDeviceType, getBaseURL } from 'utils/utils'
+import { getDeviceType } from 'utils/utils'
+import { useEffect } from 'react'
 
 const PinLink = (user: TUser) => {
+  useEffect(() => {
+    fetch(`/api/analytics/hitpage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pinLinkId: user.id,
+        deviceType: getDeviceType(window.navigator.userAgent),
+        referrer: window.location.href,
+      }),
+    })
+  }, [])
   return (
     <>
       <NextSeo
-        additionalLinkTags={[
-          {
-            rel: 'icon',
-            href: 'https://pinlink.com/favicon.ico',
-          },
-        ]}
         title={`${user.name || user.username} | pinlink`}
         description={`Check out ${user.name || user.username}'s PinLink to grab their links!`}
         canonical={`https://pinlink.com/${user.username}`}
       />
-
       <User user={user} />
     </>
   )
@@ -31,8 +38,6 @@ export default PinLink
 export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context.query.user?.includes('edit'))
     return { redirect: { destination: '/edit/links', permanent: false } }
-
-  const BASE_URL = getBaseURL()
 
   const username = context.query.user?.toString().toLowerCase()
 
@@ -60,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  fetch(`${BASE_URL}/api/analytics/hitpage`, {
+  await fetch(`${BASE_URL}/api/analytics/hitpage`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
