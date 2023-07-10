@@ -15,16 +15,9 @@ const Footer = () => {
       <Spacer />
       <HStack spacing={4}>
         {socials.map((social, i) => (
-          <Box
-            _hover={{ opacity: 0.8 }}
-            _active={{ opacity: 0.5 }}
-            onClick={() => window.open(social.link, '_blank')}
-            cursor="pointer"
-            transitionDuration="400ms"
-            key={i}
-            as={social.icon}
-            size={24}
-          />
+          <a href={social.link} key={i} target="_blank">
+            <Box _hover={{ opacity: 0.8 }} _active={{ opacity: 0.5 }} as={social.icon} size={24} />
+          </a>
         ))}
       </HStack>
     </HStack>
