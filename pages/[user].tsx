@@ -1,11 +1,10 @@
 import { getUserFromUsername } from 'controllers/getuser'
 import type { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
+import { getBaseURL, getDeviceType } from 'utils/utils'
 
 import User from 'components/PinLink'
 import { TUser } from 'types/user'
-import { getDeviceType } from 'utils/utils'
-import { useEffect } from 'react'
 
 const PinLink = (user: TUser) => {
   useEffect(() => {
@@ -44,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { user, error } = await getUserFromUsername(username as string)
 
   if (!user || error) {
-    console.log('LINE 44 ERRORING')
+    console.log('error on ssr [user].tsx', error)
     return {
       redirect: {
         destination: '/404',
@@ -65,7 +64,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  await fetch(`${BASE_URL}/api/analytics/hitpage`, {
+  const BASE_URL = getBaseURL()
+  fetch(BASE_URL + '/api/analytics/hitpage', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -73,6 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     body: JSON.stringify({
       pinLinkId: user.id,
       deviceType: getDeviceType(context.req.headers['user-agent'] || ''),
+      ip: context.req.headers['x-forwarded-for'] || context.req.socket.remoteAddress,
       referrer: context.req.headers.referer,
     }),
   })

@@ -8,6 +8,7 @@ const RequestSchema = z.object({
   pinlinkId: z.string(),
   referrer: z.string().optional(),
   device: z.nativeEnum(Device).optional(),
+  ip: z.string().optional(),
 })
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
