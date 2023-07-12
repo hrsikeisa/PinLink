@@ -1,71 +1,65 @@
 import { Heading, HStack, Stack, Text, VStack, useBreakpointValue } from '@chakra-ui/react'
+import { USERS } from 'consts/landingpage'
 import Image from 'next/image'
 
-const HorizontalScroll = () => {
-  const names = [
-    {
-      name: 'theo',
-      pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694395723/apps/pinlink-web/fluyaavplicw081ay519.jpg',
-      color: 'purple.200',
-      link: 'https://pinlink.com/theo',
-    },
-    // todo add more
-  ]
-  const names2 = [
-    {
-      name: 'theo',
-      pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694395723/apps/pinlink-web/fluyaavplicw081ay519.jpg',
-      color: 'purple.200',
-      link: 'https://pinlink.com/theo',
-    },
-    // todo add more
-  ]
-  const Names2Duplicated = [...names2, ...names2, ...names2, ...names2]
-  const NamesDuplicated = [...names, ...names, ...names, ...names]
-
+const HorizontalScroll = ({ isMobile }: { isMobile: boolean | undefined }) => {
   const imageSize = useBreakpointValue({ base: 32, md: 40 })
+
+  const leftUsers = USERS.slice(0, Math.floor(USERS.length / 2)).concat(
+    USERS.slice(0, Math.floor(USERS.length / 2)).concat(
+      USERS.slice(0, Math.floor(USERS.length / 2))
+    )
+  )
+
+  const rightUsers = USERS.slice(Math.floor(USERS.length / 2), USERS.length).concat(
+    USERS.slice(Math.floor(USERS.length / 2), USERS.length).concat(
+      USERS.slice(Math.floor(USERS.length / 2), USERS.length)
+    )
+  )
+
   return (
-    <VStack pt={{ base: 24, md: 8 }} pb={14}>
-      <Stack direction={{ base: 'column', md: 'row' }} textAlign="center" spacing={2} pb={12}>
-        <Heading fontSize={{ base: '4xl', md: '5xl' }} color="black">
-          Join the
+    <VStack pt={{ base: 4, md: 8 }} pb={0} justifyContent="center" alignItems="center">
+      <Stack direction={{ base: 'column', md: 'row' }} spacing={2} pb={12}>
+        <Heading fontSize={{ base: '4xl', lg: '5xl' }} color="black" fontWeight="semibold">
+          {isMobile && 'Pinlink has served'}
+          {!isMobile && `We've served`}
         </Heading>
-        <Heading px={1} bg="purple.200" fontSize={{ base: '4xl', md: '5xl' }} fontWeight="black">
-          countless others
+        <Heading bg="purple.200" fontSize={{ base: '4xl', lg: '5xl' }} fontWeight="black">
+          &nbsp; 1,000,000+ &nbsp;
         </Heading>
-        <Heading fontSize={{ base: '4xl', md: '5xl' }} color="black">
-          using PinLink
+        <Heading fontSize={{ base: '4xl', lg: '5xl' }} color="black" fontWeight="semibold">
+          unique visitors
         </Heading>
       </Stack>
       <div className="container">
-        {NamesDuplicated.map((name, index) => {
+        {leftUsers.map((user, index) => {
           return (
-            <HStack rounded="md" bg={name.color} key={index} spacing={4} w="fit" h="1" p={3}>
+            <HStack rounded="md" bg="purple.200" key={index} spacing={4} w="fit" h="1" p={3}>
               <Image
-                src={name?.pfp}
+                src={user?.pfp}
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
-                height={imageSize}
                 width={imageSize}
+                height={imageSize}
               />
               <Text fontSize="sm" color="black">
-                {name.name}
+                @{user.username}
               </Text>
             </HStack>
           )
         })}
       </div>
       <div className="container2">
-        {Names2Duplicated.map((name, index) => {
+        {rightUsers.map((user, index) => {
           return (
-            <HStack rounded="md" bg={name.color} key={index} spacing={4} w="fit" p={4}>
+            <HStack rounded="md" bg="purple.200" key={index} spacing={4} w="fit" p={4}>
               <Image
-                src={name?.pfp}
+                src={user?.pfp}
                 style={{ borderRadius: '50%', objectFit: 'cover' }}
-                height={imageSize}
                 width={imageSize}
+                height={imageSize}
               />
               <Text fontSize="sm" color="black">
-                {name.name}
+                @{user.username}
               </Text>
             </HStack>
           )
@@ -74,4 +68,5 @@ const HorizontalScroll = () => {
     </VStack>
   )
 }
+
 export default HorizontalScroll
