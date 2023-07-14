@@ -36,6 +36,8 @@ const ImageBox = ({ ...props }) => (
     borderWidth={5}
     borderColor="gray.800"
     rounded="xl"
+    minH={1754 / 8}
+    minW={2592 / 8}
     p={1}
     display={props.display}
   >
