@@ -1,18 +1,22 @@
 import prisma from 'utils/prisma'
 
-export const getUsernameFromDomain = async (domain: string) => {
-  const domainData = await prisma.domains.findFirst({
-    where: { domain },
-  })
+// TODO: temp moving this to /api/fetchdomain -- rethinking structure
+// export const getUsernameFromDomain = async (domain: string) => {
+//   const domainData = await prisma.domains.findFirst({
+//     where: { domain },
+//   })
 
-  const user = await prisma.pinlinkProd.findFirst({
-    where: { userId: domainData?.userId },
-  })
+//   if (!domainData || !domainData.userId) return { error: 'No domain found' }
+
+//   const user = await prisma.pinLinkProd.findFirst({
+//     where: { userId: domainData.userId },
+//     select: { username: true },
+//   })
 
   if (!user) return { error: 'No user found' }
 
-  return user.username || false
-}
+//   return user.username
+// }
 
 export const fetchUserDomains = async (userId: string): Promise<string[]> => {
   const domainData = await prisma.domains.findMany({

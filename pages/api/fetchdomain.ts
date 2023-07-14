@@ -1,13 +1,32 @@
-import { getUsernameFromDomain } from 'controllers/domains'
-import { NextApiRequest, NextApiResponse } from 'next'
+// tempoary fix -- planning to move to drizzle
+import { neon } from '@neondatabase/serverless'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { domain } = req.body
+export const config = { runtime: 'edge' }
 
-  const username = await getUsernameFromDomain(domain)
+export default async (req: Request) => {
+  const url = new URL(req.url)
+  const domain = url.searchParams.get('domain')
+  const sql = neon(process.env.DATABASE_URL!)
 
-  if (!username) return res.status(400).json(false)
+  try {
+    const domainDataArray = await sql`SELECT * FROM "Domains" WHERE "domain" = ${domain}`
+    const domainData = domainDataArray[0]
 
-  return res.status(200).json(username)
+    if (!domainData || !domainData.userId) throw new Error('No domain found')
+
+    const userArray = await sql`
+      SELECT "username" FROM "PinLinkProd" WHERE "userId" = ${domainData.userId}
+    `
+    const user = userArray[0]
+
+    if (!user || !user.username) throw new Error('No user found')
+
+    return new Response(JSON.stringify({ username: user.username, success: true }), {
+      headers: { 'content-type': 'application/json' },
+    })
+  } catch (error) {
+    return new Response(JSON.stringify({ success: false }), {
+      headers: { 'content-type': 'application/json' },
+    })
+  }
 }
-export default handler
