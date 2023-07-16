@@ -24,13 +24,20 @@ export const AddPageHit = async ({ pinlinkId, referrer, ip, device }: TPageHit) 
   const { country } = await getCountry.json()
   console.log('Country:', country)
 
+  console.log('Adding page hit')
+  console.log('pinlinkId:', pinlinkId)
+  console.log('referrer:', referrer)
+  console.log('ip:', ip)
+  console.log('device:', device)
+  console.log('country:', country)
+
   const pageHit = await prisma.hitPage.create({
     data: {
       pinlinkId,
-      referrer,
-      ip,
-      device,
-      country,
+      referrer: referrer || '',
+      ip: ip || '',
+      device: device || Device.UNKNOWN,
+      country: country || '',
     },
   })
 

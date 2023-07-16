@@ -19,11 +19,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // premmaturely return 200 to prevent blocking the client from loading
   res.status(200).json({ success: true })
 
-
-
   const { pinlinkId, referrer, device, ip } = request.data
 
-  await AddPageHit({ pinlinkId, referrer, ip: ip as string, device: device || Device.UNKNOWN })
+  await AddPageHit({ pinlinkId, referrer, ip, device })
 
 }
 
