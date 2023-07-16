@@ -19,31 +19,23 @@ type TLinkHit = {
   device?: Device
 }
 
-export const AddPageHit = async ({ pinlinkId, referrer, ip, device }: TPageHit) => {
-  const getCountry = await fetch(`https://api.country.is/${ip}`)
-  const { country } = await getCountry.json()
-  console.log('Country:', country)
-
+export const AddPageHit = async ({ pinLinkId, referrer, ip, device }: TPageHit) => {
   console.log('Adding page hit')
   console.log('pinlinkId:', pinlinkId)
   console.log('referrer:', referrer)
   console.log('ip:', ip)
   console.log('device:', device)
-  console.log('country:', country)
 
-  const pageHit = await prisma.hitPage.create({
-    data: {
-      pinlinkId,
-      referrer: referrer || '',
-      ip: ip || '',
-      device: device || Device.UNKNOWN,
-      country: country || '',
-    },
-  })
-
-  if (!pageHit) return { error: 'Error adding page hit' }
-
-  return pageHit
+  prisma.hitPage
+    .create({
+      data: { pinlinkId, referrer: referrer || '', ip: ip || '', device: device || Device.UNKNOWN },
+    })
+    .then((pageHit) => {
+      console.log('Page hit added:', pageHit)
+    })
+    .catch((error) => {
+      console.log('Error adding page hit:', error)
+    })
 }
 
 export const AddLinkHit = async ({

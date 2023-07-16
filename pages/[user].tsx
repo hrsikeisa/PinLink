@@ -1,7 +1,7 @@
 import { getUserFromUsername } from 'controllers/getuser'
 import type { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
-import { getBaseURL, getDeviceType } from 'utils/utils'
+import { getDeviceType } from 'utils/utils'
 
 import User from 'components/PinLink'
 import { TUser } from 'types/user'
@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const { user, error } = await getUserFromUsername(username as string)
 
-  console.log('Millisecs to get user', Date.now() - start)
+  console.log('Millisecs to get user from DB', Date.now() - start)
 
   if (!user || error) {
     console.log('error on ssr [user].tsx', error)
@@ -67,11 +67,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
-  console.log('Millisecs to get to 56', Date.now() - start)
 
-  const BASE_URL = getBaseURL()
-  AddPageHit({
-    pinlinkIdId: user.id,
+  await AddPageHit({
+    pinlinkId: user.id,
     device: getDeviceType(context.req.headers['user-agent']),
     referrer: context.req.headers.referer || '',
     ip: (context.req.headers['x-forwarded-for'] as string) || context.req.socket.remoteAddress,
