@@ -93,7 +93,7 @@ const AuthComponent = ({ isSignup }: AuthComponentProps) => {
     <>
       <NextSeo title={`${isSignup ? 'Sign up' : 'Log in'} | Pinlink`} />
 
-      <Center h={{ base: '90vh', md: '100vh' }} px={{ base: 5, md: 8 }}>
+      <Center px={{ base: 5, md: 8 }} pt={{ base: '7rem', md: '15rem' }}>
         <Box pos="absolute" top="0" left="0" px={{ base: 0, md: 8 }} py={4} cursor="pointer">
           <a href="/">
             <HStack
@@ -112,12 +112,12 @@ const AuthComponent = ({ isSignup }: AuthComponentProps) => {
         </Box>
 
         <VStack spacing={6} w="35rem" align="left">
-          <Image src="/logo.png" w={{ base: '2.5rem', md: '3rem' }} />
+          <Image src="/logo.png" w="3rem" />
           <VStack spacing={1} align="left">
-            <Heading fontSize={{ base: '2xl', md: '4xl' }} color="black">
+            <Heading fontSize={{ base: '3xl', md: '4xl' }} color="black">
               {isSignup ? 'Create a Pinlink' : 'Log in to Pinlink'}
             </Heading>
-            <Text>
+            <Text fontSize={{ base: 'lg', md: 'lg' }} color="gray.600">
               {isSignup ? 'Already have an account? ' : "Don't have an account? "}
               <Link
                 href={isSignup ? '/login' : '/signup'}
@@ -185,6 +185,17 @@ const AuthComponent = ({ isSignup }: AuthComponentProps) => {
               </Button>
             ))}
           </VStack>
+          <Text fontSize="sm" color="gray.500">
+            By continuing, you agree to Pinlink's{' '}
+            <Link href="/tos.pdf" color="blue.500" _focus={{ outline: 'none' }}>
+              Terms of Service
+            </Link>{' '}
+            and{' '}
+            <Link href="/privacy.pdf" color="blue.500" _focus={{ outline: 'none' }}>
+              Privacy Policy
+            </Link>
+            .
+          </Text>
         </VStack>
       </Center>
     </>
