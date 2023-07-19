@@ -1,15 +1,12 @@
-import { NextPage } from 'next'
-
 import { HStack, VStack } from '@chakra-ui/react'
 
 import { NextSeo } from 'next-seo'
-
-import LandingLayout from 'components/Layouts/LandingLayout'
 
 import HorizontalScroll from 'components/Landing/HorizontalScroll'
 import StarBox from 'components/Landing/StarBox'
 import MainContent from 'components/Landing/MainContent'
 import ExamplePinLinks from 'components/Landing/ExamplePinLinks'
+import LandingHeader from 'components/Headers/LandingHeader'
 
 const Home = () => {
   return (
@@ -19,14 +16,19 @@ const Home = () => {
         description="Simple. Fast. Free. Pinlink is a non-bloated link-in-bio tool for anyone, without any hassle or annoyance :)"
         canonical="https://pinlink.com"
       />
-      <VStack
-        color="black"
-        textAlign="center"
-        px={{ base: 0, md: 12 }}
-        pt={{ base: '3rem', md: '4rem' }}
-        spacing={{ base: 16, md: 28 }}
-      >
-        <HStack w="full" justify="space-between">
+
+      <VStack minH={{ base: '95vh', md: '95vh' }} justify="space-between">
+        <LandingHeader />
+
+        <HStack
+          w="full"
+          px={{ base: 4, md: 12 }}
+          p={4}
+          color="black"
+          spacing={8}
+          justify="space-between"
+          textAlign="center"
+        >
           <VStack w="lg" align="left" textAlign="left" spacing={6}>
             <StarBox />
             <MainContent />
@@ -41,7 +43,3 @@ const Home = () => {
 }
 
 export default Home
-
-Home.getLayout = function getLayout(page: NextPage) {
-  return <LandingLayout>{page}</LandingLayout>
-}
