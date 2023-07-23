@@ -1,4 +1,4 @@
-import prisma from 'utils/prisma'
+import prisma from 'lib/prisma'
 import { Device } from 'types/utils'
 
 import { addDays, format } from 'date-fns'
@@ -46,25 +46,20 @@ export const AddLinkHit = async ({
   linkURL,
   linkTitle,
 }: TLinkHit) => {
-  const getCountry = await fetch(`https://api.country.is/${ip}`)
-  const { country } = await getCountry.json()
-  console.log('Country:', country)
-
-  const pageHit = await prisma.hitLink.create({
+  const linkHit = await prisma.hitLink.create({
     data: {
       pinlinkId,
       referrer,
       ip,
       device,
-      country,
       linkURL,
       linkTitle,
     },
   })
 
-  if (!pageHit) return { error: 'Error adding page hit' }
+  if (!linkHit) return { error: 'Error adding page hit' }
 
-  return pageHit
+  return linkHit
 }
 
 export type GetPageHitsReturnData = number
