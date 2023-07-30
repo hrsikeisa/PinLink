@@ -19,6 +19,8 @@ import { GrAddCircle } from 'react-icons/gr'
 import { FaIconKey, TLink, TUser } from 'types/user'
 
 import DynamicIcon from 'components/DynamicIcon'
+import { trackClientEvent } from 'lib/posthog'
+import { PosthogEvents } from 'consts/posthog'
 
 type EditLinkModalProps = {
   user: TUser
@@ -53,12 +55,7 @@ const EditLinkModal = ({
   handleClose,
 }: EditLinkModalProps) => {
   const toast = useToast()
-  const obj = {
-    link,
-    title,
-    emoji,
-    color,
-  }
+  const obj = { link, title, emoji, color }
 
   const isEmoji = emoji?.includes('Fa')
 
@@ -106,9 +103,7 @@ const EditLinkModal = ({
 
   const updateLink = () => {
     const newLinks = user.links.map((link: any) => {
-      if (link.link === selectedLink.link) {
-        return obj
-      }
+      if (link.link === selectedLink.link) return obj
       return link
     })
     setUser({ ...user, links: newLinks })
@@ -117,6 +112,7 @@ const EditLinkModal = ({
 
   const createLink = () => {
     setUser({ ...user, links: [...user.links, obj] })
+    trackClientEvent({ event: PosthogEvents.ADDED_LINK, user })
     handleClose()
   }
 

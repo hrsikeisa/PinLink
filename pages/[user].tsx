@@ -37,7 +37,7 @@ export default PinLink
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const start = Date.now()
-  if (context.query.user?.includes('edit'))
+  if (context.query.user === 'edit')
     return { redirect: { destination: '/edit/links', permanent: false } }
 
   const username = context.query.user?.toString().toLowerCase()
@@ -70,6 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   await AddPageHit({
     pinlinkId: user.id,
+    username: user.username || '',
     device: getDeviceType(context.req.headers['user-agent']),
     referrer: context.req.headers.referer || '',
     ip: (context.req.headers['x-forwarded-for'] as string) || context.req.socket.remoteAddress,

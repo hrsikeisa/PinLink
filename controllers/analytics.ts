@@ -2,16 +2,19 @@ import prisma from 'lib/prisma'
 import { Device } from 'types/utils'
 
 import { addDays, format } from 'date-fns'
+import { trackServerEvent } from 'lib/posthog'
+import { PosthogEvents } from 'consts/posthog'
 
 type TPageHit = {
   pinlinkId: string
+  username: string
   referrer?: string
   ip?: string
   device?: Device
 }
 
 type TLinkHit = {
-  pinlinkId: string
+  pinLinkId: string
   linkURL: string
   linkTitle: string
   referrer?: string
@@ -19,8 +22,8 @@ type TLinkHit = {
   device?: Device
 }
 
-export const AddPageHit = async ({ pinLinkId, referrer, ip, device }: TPageHit) => {
-  console.log('Adding page hit')
+export const AddPageHit = async ({ pinlinkId, username, referrer, ip, device }: TPageHit) => {
+  console.log('ADDDING page hit')
   console.log('pinlinkId:', pinlinkId)
   console.log('referrer:', referrer)
   console.log('ip:', ip)
@@ -36,10 +39,16 @@ export const AddPageHit = async ({ pinLinkId, referrer, ip, device }: TPageHit) 
     .catch((error) => {
       console.log('Error adding page hit:', error)
     })
+
+  trackServerEvent({
+    event: PosthogEvents.PINLINK_PAGE_HIT,
+    id: ip,
+    properties: { pinlinkId, referrer, ip, device, username },
+  })
 }
 
 export const AddLinkHit = async ({
-  pinlinkId,
+  pinLinkId,
   referrer,
   ip,
   device,
@@ -48,7 +57,7 @@ export const AddLinkHit = async ({
 }: TLinkHit) => {
   const linkHit = await prisma.hitLink.create({
     data: {
-      pinlinkId,
+      pinLinkId,
       referrer,
       ip,
       device,

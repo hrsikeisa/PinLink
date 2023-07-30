@@ -6,14 +6,17 @@ import { useRouter } from 'next/router'
 import EditorHeader from 'components/Headers/EditorHeader'
 import LoadingScreen from 'components/Auth/LoadingScreen'
 
-import { UserContextType } from 'types/user'
-import { UserContext } from 'pages/_app'
+import { TPinLinkProdContext, TUserContext } from 'types/user'
+import { PinLinkProdContext, UserContext } from 'pages/_app'
 import NoUserScreen from 'components/Auth/NoUserScreen'
 import { NextSeo } from 'next-seo'
 import Editor from 'components/Editor'
+import { trackClientEvent } from 'lib/posthog'
+import { PosthogEvents } from 'consts/posthog'
 
 const Edit = () => {
-  const { user, setUser } = useContext(UserContext) as UserContextType
+  const { user, setUser } = useContext(UserContext) as TUserContext
+  const { pinLinkProd } = useContext(PinLinkProdContext) as TPinLinkProdContext
 
   const router = useRouter()
   const [route, setRoute] = useState<string | null>(null)
@@ -29,6 +32,8 @@ const Edit = () => {
     gtag('event', 'conversion', {
       send_to: `${process.env.NEXT_PUBLIC_GTAG}/${process.env.NEXT_PUBLIC_GTAG_CONVERSION}`,
     })
+
+    trackClientEvent({ event: PosthogEvents.HIT_EDIT, id: user?.id })
   }, [])
 
   useEffect(() => {
@@ -50,7 +55,7 @@ const Edit = () => {
     <>
       <NextSeo title="Pinlink | Edit" />
       <EditorHeader user={user} />
-      <Editor user={user} setUser={setUser} route={route} />
+      <Editor user={user} setUser={setUser} pinLInkProd={pinLinkProd} route={route} />
     </>
   )
 }

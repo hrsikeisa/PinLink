@@ -2,6 +2,7 @@ import * as icons from 'react-icons/fa'
 
 export type TUser = {
   id: string
+  userId?: string
   email?: string
   createdAt: Date | string
   username?: string
@@ -23,7 +24,7 @@ export type TUser = {
 }
 export type TLink = {
   color?: string
-  emoji: string
+  emoji?: string
   link: string
   title: string
   isPreview?: boolean
@@ -38,7 +39,7 @@ export type TIcon = {
 
 export type FaIconKey = keyof typeof icons
 
-export type UserContextType = {
+export type TUserContext = {
   user: TUser | null
   setUser: React.Dispatch<React.SetStateAction<TUser | null>>
 }

@@ -1,7 +1,6 @@
 import { useState, ChangeEvent } from 'react'
 
 import {
-  HStack,
   Box,
   Heading,
   VStack,
@@ -16,6 +15,8 @@ import {
 
 import { TUser } from 'types/user'
 import { uploadFile } from 'lib/uploadfile'
+import { trackClientEvent } from 'lib/posthog'
+import { PosthogEvents } from 'consts/posthog'
 
 const Profile = ({ user, setUser }: { user: TUser; setUser: (user: TUser) => void }) => {
   const toast = useToast()
@@ -28,6 +29,7 @@ const Profile = ({ user, setUser }: { user: TUser; setUser: (user: TUser) => voi
 
     if (imageURL && !error) {
       setUser({ ...user, pfp: imageURL, blurpfp: blurpfp || '' })
+      trackClientEvent({ event: PosthogEvents.UPDATED_AVATAR, user })
     } else {
       toast({ title: 'Error', description: error, status: 'error' })
     }

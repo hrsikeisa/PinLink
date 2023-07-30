@@ -5,18 +5,19 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { TUser } from 'types/user'
+import { initializePostHog } from 'lib/posthog'
 
 type NextPageWithLayout = NextPage & { getLayout?: (page: ReactElement) => ReactNode }
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout }
 
 export const UserContext = createContext({})
-export const PublishedPinLinkContext = createContext({})
+export const PinLinkProdContext = createContext({})
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page)
 
   const [user, setUser] = useState<TUser | null>(null)
-  const [publishedPinLink, setPublishedPinLink] = useState<TUser | null>(null)
+  const [pinLinkProd, setPinLinkProd] = useState<TUser | null>(null)
 
   const getUserSession = async () => {
     if (!window.location.pathname.includes(`/edit`)) return
@@ -31,7 +32,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     }
 
     setUser(user)
-    setPublishedPinLink(publishedPinLink)
+    setPinLinkProd(publishedPinLink)
 
     console.log(
       `%cUser found in ${new Date().getTime() - start}ms`,
@@ -41,15 +42,17 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   useEffect(() => {
     if (user === null) getUserSession()
+
+    initializePostHog()
   }, [])
 
   return (
     <ChakraProvider>
       {getLayout(
         <UserContext.Provider value={{ user, setUser }}>
-          <PublishedPinLinkContext.Provider value={{ publishedPinLink, setPublishedPinLink }}>
+          <PinLinkProdContext.Provider value={{ pinLinkProd, setPinLinkProd }}>
             <Component {...pageProps} />
-          </PublishedPinLinkContext.Provider>
+          </PinLinkProdContext.Provider>
         </UserContext.Provider>
       )}
     </ChakraProvider>

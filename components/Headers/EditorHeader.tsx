@@ -20,13 +20,13 @@ import {
   Image,
 } from '@chakra-ui/react'
 
-import { TPublishedPinLinkContext, TUser } from 'types/user'
+import { TPinLinkProdContext, TUser } from 'types/user'
 import SharePinLinkModal from 'components/Modals/SharePinLinkModal'
-import { PublishedPinLinkContext } from 'pages/_app'
+import { PinLinkProdContext } from 'pages/_app'
 import { useRouter } from 'next/router'
 
 const EditorHeader = ({ user }: { user: TUser | null }) => {
-  const { publishedPinLink } = useContext(PublishedPinLinkContext) as TPublishedPinLinkContext
+  const { PinLinkProd } = useContext(PinLinkProdContext) as TPinLinkProdContext
 
   const toast = useToast()
   const router = useRouter()
@@ -64,7 +64,7 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
   )
 
   const checkChanges = () => {
-    const published = omit(publishedPinLink, ['createdAt', 'isNewUser', 'domains'])
+    const published = omit(pinLinkProd, ['createdAt', 'isNewUser', 'domains'])
     const draft = omit(user, ['createdAt', 'isNewUser', 'domains'])
 
     if (!isEqual(published, draft)) {
@@ -76,9 +76,9 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
   }
 
   useEffect(() => {
-    if (!user || !publishedPinLink) return
+    if (!user || !pinLinkProd) return
     checkChanges()
-  }, [user, publishedPinLink])
+  }, [user, pinLinkProd])
 
   return (
     <>

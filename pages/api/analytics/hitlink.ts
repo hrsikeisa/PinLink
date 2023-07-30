@@ -3,9 +3,12 @@ import { z } from 'zod'
 import { Device } from 'types/utils'
 
 import { AddLinkHit, AddPageHit } from 'controllers/analytics'
+import { trackServerEvent } from 'lib/posthog'
+import { PosthogEvents } from 'consts/posthog'
 
 const RequestSchema = z.object({
-  pinlinkId: z.string(),
+  pinLinkId: z.string(),
+  username: z.string(),
   linkURL: z.string(),
   linkTitle: z.string(),
   referrer: z.string().optional(),
@@ -17,17 +20,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const request = RequestSchema.safeParse(req.body)
   if (!request.success) return res.status(400).json({ error: request.error })
 
-  const { pinlinkId, referrer, device, linkURL, linkTitle } = request.data
+  const { pinLinkId, referrer, device, linkURL, linkTitle, username } = request.data
 
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
 
   await AddLinkHit({
-    pinlinkId,
+    pinLinkId,
     referrer,
     ip: ip as string,
     device: device || Device.UNKNOWN,
     linkURL: linkURL.includes('http') ? linkURL : `https://${linkURL}`,
     linkTitle,
+  })
+
+  trackServerEvent({
+    event: PosthogEvents.PINLINK_LINK_HIT,
+    id: ip as string,
+    properties: { pinLinkId, referrer, ip, device, linkURL, linkTitle, username },
   })
 
   console.log(`[HIT LINK] ${Date.now() - start}ms - ${linkTitle} - ${linkURL}`)

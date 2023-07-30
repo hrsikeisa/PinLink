@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from 'react'
 
-import { VStack, Text, InputGroup, InputLeftAddon, Input, Box, useToast } from '@chakra-ui/react'
+import { VStack, Text, InputGroup, InputLeftAddon, Input, Box } from '@chakra-ui/react'
 import { debounce } from 'lodash'
 
 import { TUser } from 'types/user'
+import { trackClientEvent } from 'lib/posthog'
+import { PosthogEvents } from 'consts/posthog'
 
 const EditUsername = ({ user, setUser }: { user: TUser; setUser: (user: TUser) => void }) => {
   const [username, setUsername] = useState('???') as any
@@ -16,10 +17,12 @@ const EditUsername = ({ user, setUser }: { user: TUser; setUser: (user: TUser) =
 
     const valid = await validator(lowercasedUsername)
 
-    if (valid) setUser({ ...user, username: lowercasedUsername })
+    if (valid) {
+      setUser({ ...user, username: lowercasedUsername })
+      trackClientEvent({ event: PosthogEvents.UPDATED_USERNAME, user, properties: { username } })
+    }
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const saveDebouncer = useCallback(
     debounce((name) => {
       handleSaveUsername(name)
@@ -76,14 +79,7 @@ const EditUsername = ({ user, setUser }: { user: TUser; setUser: (user: TUser) =
   }, [user])
 
   return (
-    <VStack
-      pr={{
-        base: 0,
-        md: '30%',
-      }}
-      align="left"
-      spacing={2}
-    >
+    <VStack pr={{ base: 0, md: '30%' }} align="left" spacing={2}>
       <Text fontWeight="semibold">PinLink Username</Text>
       <Box>
         <InputGroup size="sm">
