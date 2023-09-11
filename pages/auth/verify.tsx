@@ -40,10 +40,6 @@ const Verify = () => {
             please check your spam folder :)
           </Text>
         </VStack>
-        <Image
-          src="https://media0.giphy.com/media/a0h7sAqON67nO/giphy.gif?cid=ecf05e472zyeph2lb189kpba2tvmbq3cavrq4frmbywjbs2k&ep=v1_gifs_search&rid=giphy.gif&ct=g"
-          alt="PinLink Logo"
-        />
       </VStack>
     </Center>
   )

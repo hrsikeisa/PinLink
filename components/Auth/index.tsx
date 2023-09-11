@@ -23,10 +23,7 @@ import Image from 'next/image'
 import { trackClientEvent } from 'lib/posthog'
 import { PosthogEvents } from 'consts/posthog'
 
-const PROVIDERS = [
-  { name: 'Google', icon: FaGoogle, color: 'blue.500' },
-  { name: 'Github', icon: FaGithub, color: 'gray.800' },
-]
+const PROVIDERS = [{ name: 'Google', icon: FaGoogle, color: 'blue.500' }]
 
 const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
   const toast = useToast()
@@ -34,7 +31,6 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
   const [email, setEmail] = useState<string>('')
   const [emailLoading, setEmailLoading] = useState<boolean>(false)
   const [googleLoading, setGoogleLoading] = useState<boolean>(false)
-  const [githubLoading, setGithubLoading] = useState<boolean>(false)
   const [isValid, setIsValid] = useState<boolean | null>(null)
 
   const validateDebouncer = debounce((name) => {
@@ -61,7 +57,6 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
     const BASE_URL = getBaseURL(window.location.hostname)
 
     if (provider === 'google') setGoogleLoading(true)
-    if (provider === 'github') setGithubLoading(true)
 
     console.log('authing with', provider)
     console.log(BASE_URL)
@@ -71,7 +66,6 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
 
     setTimeout(() => {
       if (provider === 'google') setGoogleLoading(false)
-      if (provider === 'github') setGithubLoading(false)
     }, 500)
   }
 
@@ -125,7 +119,7 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
 
         <VStack spacing={6} w="35rem" align="left">
           <Box w="full" h="3rem">
-            <Image src="/logo.png" width={48} height={48} alt="Pinlink Logo" priority={true} />
+            <Image src="/logo.png" width={48} height={48} alt="PinLink Logo" priority={true} />
           </Box>
           <VStack spacing={1} align="left">
             <Heading fontSize={{ base: '3xl', md: '4xl' }} color="black">
@@ -167,7 +161,7 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
               _active={isValid !== false && !emailLoading ? { opacity: 0.5 } : {}}
               _focus={{ outline: 'none' }}
               transition="0.3s"
-              bg="purple.600"
+              bg="red.300"
               onClick={authEmail}
               isLoading={emailLoading}
               isDisabled={isValid === null ? false : isValid === false ? true : false}
@@ -189,28 +183,17 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
                 bg={item.color}
                 textColor="white"
                 w="full"
-                _hover={!googleLoading && !githubLoading ? { opacity: 0.8 } : {}}
-                _active={!googleLoading && !githubLoading ? { opacity: 0.5 } : {}}
+                _hover={!googleLoading ? { opacity: 0.8 } : {}}
+                _active={!googleLoading ? { opacity: 0.5 } : {}}
                 _focus={{ outline: 'none' }}
                 onClick={() => authSocial(item.name.toLowerCase())}
-                isLoading={item.name.toLowerCase() === 'google' ? googleLoading : githubLoading}
+                isLoading={item.name.toLowerCase() === 'google' ? googleLoading : false}
               >
                 <Box as={item.icon} color="white" size="20px" />
                 <Text pl={2}> Continue with {item.name}</Text>
               </Button>
             ))}
           </VStack>
-          <Text fontSize="sm" color="gray.500">
-            By continuing, you agree to Pinlink's{' '}
-            <Link href="/tos.pdf" color="blue.500" _focus={{ outline: 'none' }}>
-              Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link href="/privacy.pdf" color="blue.500" _focus={{ outline: 'none' }}>
-              Privacy Policy
-            </Link>
-            .
-          </Text>
         </VStack>
       </Center>
     </>

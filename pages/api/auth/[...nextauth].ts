@@ -8,7 +8,6 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { trackServerEvent } from 'lib/posthog'
 import { PosthogEvents } from 'consts/posthog'
 import { cleanPrismaData } from 'lib/utils'
-import { sendMagicLink } from 'controllers/emails'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
@@ -18,35 +17,21 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-    }),
     EmailProvider({
-      // here you have two options: use an http api or setup an smpt server
-      // if you want all dependencies opensource, smpt will be eaiser
-      // otherwise customize what ya want in /controllers/emails.ts
-      // questions? feel free to dm me on twitter @aleemrehmtulla
-
-      // server: {
-      //   host: process.env.SMTP_HOST,
-      //   port: process.env.SMTP_PORT,
-      //   auth: {
-      //     user: process.env.SMTP_USER,
-      //     pass: process.env.SMTP_PASSWORD,
-      //   },
-      // },
-      // from: process.env.SMTP_FROM,
-
-      sendVerificationRequest: async ({ url, identifier: email }) => {
-        return await sendMagicLink(email, url)
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
       },
+      from: process.env.EMAIL_FROM,
     }),
   ],
   pages: {
     verifyRequest: '/auth/verify',
     error: '/auth/error',
-    signIn: '/auth/error',
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -108,14 +93,14 @@ export const authOptions: NextAuthOptions = {
       }
     },
     createUser: async ({ user }) => {
-      await prisma.pinlinkDraft.create({
+      await prisma.pinLinkDraft.create({
         data: {
           userId: user.id,
           email: user.email,
         },
       })
 
-      const pinlinkUser = await prisma.pinlinkProd
+      const pinLinkUser = await prisma.pinLinkProd
         .create({
           data: {
             userId: user.id,
@@ -126,7 +111,7 @@ export const authOptions: NextAuthOptions = {
 
       trackServerEvent({
         event: PosthogEvents.CREATED_ACCOUNT,
-        user: pinlinkUser,
+        user: pinLinkUser,
       })
     },
   },
