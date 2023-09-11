@@ -18,4 +18,6 @@ A simple Linktree like application.
 - [Vercel](https://vercel.com/)
 
 ## 📺 Demo Video
+https://github.com/2hari/PinLink/assets/73457568/cf6320a3-8c22-42a3-8e09-e1566be81205
+
 
