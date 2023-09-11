@@ -5,15 +5,6 @@ generator client {
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
-  shadowDatabaseUrl = env("SHADOW_URL")
-}
-
-model Domains {
-  domain    String   @id @unique
-  userId    String
-  createdAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model HitPage {
@@ -53,7 +44,6 @@ model PinLinkDraft {
   customColor    String?
   links          Json?
   icons          Json?
-  vcf            Json?
   redirectLink   String?
   shouldRedirect Boolean? @default(false)
   blurpfp        String?
@@ -73,7 +63,6 @@ model PinLinkProd {
   customColor    String?
   links          Json?
   icons          Json?
-  vcf            Json?
   redirectLink   String?
   shouldRedirect Boolean?  @default(false)
   blurpfp        String?
@@ -117,9 +106,8 @@ model User {
   legacy        Boolean?   @default(false)
   setup         Boolean?   @default(false)
   accounts      Account[]
-  domains       Domains[]
-  pinlinkDraft     PinLinkDraft?
-  pinlinkProd      PinLinkProd?
+  PinLinkDraft     PinLinkDraft?
+  PinLinkProd      PinLinkProd?
   sessions      Session[]
 }
 
