@@ -1,15 +1,15 @@
 # PinLink 📌
 
-A simple, free, and opensource alternative to Linktree.
+A simple Linktree like application.
 
-## 📝 Features
+## 💡 Features
 
-- [x] Customizable links and icons
-- [x] Over 9 beautiful themes
-- [x] Advanced analytic engine
-- [x] Blazingly fast using SSR
+- [x] Share links in one place
+- [x] Over 9 elegant themes
+- [x] Built in analytics with no 3rd Party
+- [x] Blazing fast using SSR
 
-## 📦 Built With
+## 🔨 Built With
 
 - [Next.js](https://nextjs.org/)
 - [Chakra UI](https://chakra-ui.com/)
@@ -18,6 +18,4 @@ A simple, free, and opensource alternative to Linktree.
 - [Vercel](https://vercel.com/)
 
 ## 📺 Demo Video
-
-https://github.com/2hari/pinlink/assets/73457568/61a39285-e597-4e05-8890-9e9c4802548d
 
