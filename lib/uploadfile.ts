@@ -5,18 +5,18 @@ type UploadFileResponse = {
 }
 
 export async function uploadFile(file: File, isPfp?: boolean): Promise<UploadFileResponse> {
-  const getuploadurl = await fetch('/api/images/getuploadurl')
-  const response = await getuploadurl.json()
-  const uploadURL = response.uploadURL
-
   const formData = new FormData()
   formData.append('file', file)
+  formData.append('upload_preset', 'ucyb6vrx')
 
-  const upload = await fetch(uploadURL, { method: 'POST', body: formData })
+  const upload = await fetch('https://api.cloudinary.com/v1_1/harihari/image/upload', {
+    method: 'POST',
+    body: formData,
+  })
   const uploadResponse = await upload.json()
-  if (!uploadResponse.success) return { error: uploadResponse.errors[0].message }
+  if (!uploadResponse.secure_url) return { error: uploadResponse.error.message }
 
-  const imageURL = uploadResponse.result.variants[0]
+  const imageURL = uploadResponse.secure_url
 
   if (!isPfp) return { imageURL: imageURL }
 

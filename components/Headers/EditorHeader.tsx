@@ -6,6 +6,7 @@ import {
   Spacer,
   Avatar,
   HStack,
+  Button,
   Container,
   SimpleGrid,
   Popover,
@@ -26,7 +27,7 @@ import { PinLinkProdContext } from 'pages/_app'
 import { useRouter } from 'next/router'
 
 const EditorHeader = ({ user }: { user: TUser | null }) => {
-  const { PinLinkProd } = useContext(PinLinkProdContext) as TPinLinkProdContext
+  const { pinLinkProd } = useContext(PinLinkProdContext) as TPinLinkProdContext
 
   const toast = useToast()
   const router = useRouter()
@@ -82,7 +83,11 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
 
   return (
     <>
-      <SharePinLinkModal username={user?.username} modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <SharePinLinkModal
+        username={user?.username}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
       <HStack
         position="fixed"
         w="full"
@@ -120,7 +125,18 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
                   {!saveState && 'Checking for changes...'}
                 </Link>
               </HStack>
-
+              <HStack spacing={1}>
+                <Button
+                  onClick={() => setModalOpen(true)}
+                  px={6}
+                  py={2}
+                  size="sm"
+                  colorScheme="gray"
+                  variant="outline"
+                >
+                  Share
+                </Button>
+              </HStack>
               <Popover trigger="hover">
                 <PopoverTrigger>
                   <Avatar
@@ -145,9 +161,6 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
                       <VStack align="left" w="fit">
                         <Link onClick={() => window.open(`/${user?.username}`)} colorScheme="blue">
                           View Profile
-                        </Link>
-                        <Link onClick={() => setModalOpen(true)} colorScheme="blue">
-                          Share PinLink
                         </Link>
                         <Link onClick={logout} colorScheme="blue">
                           Log out
