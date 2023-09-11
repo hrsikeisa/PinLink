@@ -26,7 +26,7 @@ const GetStartedModal = ({ modalOpen, setModalOpen, user, setUser }: GetStartedM
   const handleSave = async () => {
     setSaving(true)
 
-    if (!isValid || !username) {
+    if (!isValid || !username || !user.name) {
       toast({ title: 'Valid username is required', status: 'error' })
       setSaving(false)
       return

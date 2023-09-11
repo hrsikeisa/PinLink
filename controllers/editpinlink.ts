@@ -17,18 +17,17 @@ export const updateDraftPinLink = async (userId: string, userData: TUser) => {
       shouldRedirect: userData.shouldRedirect || false,
       links: (userData.links as any) || undefined,
       icons: userData.icons || undefined,
-      vcf: userData.vcf || undefined,
     },
   })
 }
 
 export const syncDraftToProd = async (userId: string) => {
-  const draftData = await prisma.pinlinkDraft.findFirst({
+  const draftData = await prisma.pinLinkDraft.findFirst({
     where: { userId },
   })
 
   if (draftData) {
-    await prisma.pinlinkProd.updateMany({
+    await prisma.pinLinkProd.updateMany({
       where: { userId },
       data: {
         username: draftData.username,
@@ -43,7 +42,6 @@ export const syncDraftToProd = async (userId: string) => {
         shouldRedirect: draftData.shouldRedirect,
         links: draftData.links || undefined,
         icons: draftData.icons || undefined,
-        vcf: draftData.vcf || undefined,
       },
     })
   }

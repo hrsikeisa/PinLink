@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { getUserFromUsername } from 'controllers/getuser'
 import type { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'

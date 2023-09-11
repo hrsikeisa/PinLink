@@ -6,7 +6,7 @@ import { trackServerEvent } from 'lib/posthog'
 import { PosthogEvents } from 'consts/posthog'
 
 type TPageHit = {
-  pinlinkId: string
+  pinLinkId: string
   username: string
   referrer?: string
   ip?: string
@@ -22,16 +22,16 @@ type TLinkHit = {
   device?: Device
 }
 
-export const AddPageHit = async ({ pinlinkId, username, referrer, ip, device }: TPageHit) => {
+export const AddPageHit = async ({ pinLinkId, username, referrer, ip, device }: TPageHit) => {
   console.log('ADDDING page hit')
-  console.log('pinlinkId:', pinlinkId)
+  console.log('pinlinkId:', pinLinkId)
   console.log('referrer:', referrer)
   console.log('ip:', ip)
   console.log('device:', device)
 
   prisma.hitPage
     .create({
-      data: { pinlinkId, referrer: referrer || '', ip: ip || '', device: device || Device.UNKNOWN },
+      data: { pinLinkId, referrer: referrer || '', ip: ip || '', device: device || Device.UNKNOWN },
     })
     .then((pageHit) => {
       console.log('Page hit added:', pageHit)
@@ -43,7 +43,7 @@ export const AddPageHit = async ({ pinlinkId, username, referrer, ip, device }: 
   trackServerEvent({
     event: PosthogEvents.PINLINK_PAGE_HIT,
     id: ip,
-    properties: { pinlinkId, referrer, ip, device, username },
+    properties: { pinLinkId, referrer, ip, device, username },
   })
 }
 
@@ -72,10 +72,10 @@ export const AddLinkHit = async ({
 }
 
 export type GetPageHitsReturnData = number
-export const GetPageHits = async (pinlinkId: string) => {
+export const GetPageHits = async (pinLinkId: string) => {
   const pageHits = await prisma.hitPage.count({
     where: {
-      pinlinkId,
+      pinLinkId,
     },
   })
 
@@ -86,12 +86,12 @@ export const GetPageHits = async (pinlinkId: string) => {
 
 // this is a bit yucky, try to type it better
 export type GetTimeSeriesDataReturnData = Array<{ date: string; views: number }>
-export const GetTimeSeriesData = async (pinlinkId: string) => {
+export const GetTimeSeriesData = async (pinLinkId: string) => {
   const thirtyDaysAgo = addDays(new Date(), -30)
 
   const rawTimeSeriesData = await prisma.hitPage.groupBy({
     by: ['timestamp'],
-    where: { pinlinkId, timestamp: { gte: thirtyDaysAgo } },
+    where: { pinLinkId, timestamp: { gte: thirtyDaysAgo } },
     _count: { timestamp: true },
     orderBy: { timestamp: 'asc' },
   })
@@ -129,11 +129,11 @@ export const GetTimeSeriesData = async (pinlinkId: string) => {
 }
 
 export type GetLinkHitsReturnData = Array<{ url: string; title: string; count: number }>
-export const GetLinkHits = async (pinlinkId: string): Promise<GetLinkHitsReturnData> => {
+export const GetLinkHits = async (pinLinkId: string): Promise<GetLinkHitsReturnData> => {
   const linkHits = await prisma.hitLink.groupBy({
     by: ['linkURL', 'linkTitle'],
     where: {
-      pinlinkId,
+      pinLinkId,
     },
     _count: {
       linkURL: true,
@@ -152,12 +152,12 @@ export const GetLinkHits = async (pinlinkId: string): Promise<GetLinkHitsReturnD
 }
 
 export type GetCountryHitsReturnData = Array<{ country: string; count: number }>
-export const GetCountryHits = async (pinlinkId: string): Promise<GetCountryHitsReturnData> => {
+export const GetCountryHits = async (pinLinkId: string): Promise<GetCountryHitsReturnData> => {
   // return array of how many times each country hit the page
   const countryHits = await prisma.hitPage.groupBy({
     by: ['country'],
     where: {
-      pinlinkId,
+      pinLinkId,
     },
     _count: {
       country: true,
@@ -175,12 +175,14 @@ export const GetCountryHits = async (pinlinkId: string): Promise<GetCountryHitsR
 }
 
 export type GetTrafficSourcesReturnData = Array<{ referrer: string; count: number }>
-export const GetTrafficSources = async (pinlinkId: string): Promise<GetTrafficSourcesReturnData> => {
+export const GetTrafficSources = async (
+  pinLinkId: string
+): Promise<GetTrafficSourcesReturnData> => {
   // return array of how many times each country hit the page
   const trafficSources = await prisma.hitPage.groupBy({
     by: ['referrer'],
     where: {
-      pinlinkId,
+      pinLinkId,
     },
     _count: {
       referrer: true,
@@ -203,12 +205,12 @@ export const GetTrafficSources = async (pinlinkId: string): Promise<GetTrafficSo
 }
 
 export type GetDeviceHitsReturnData = Array<{ device: Device; count: number }>
-export const GetDeviceHits = async (pinlinkId: string): Promise<GetDeviceHitsReturnData> => {
+export const GetDeviceHits = async (pinLinkId: string): Promise<GetDeviceHitsReturnData> => {
   // return array of how many times each device hit the page
   const deviceHits = await prisma.hitPage.groupBy({
     by: ['device'],
     where: {
-      pinlinkId,
+      pinLinkId,
     },
     _count: {
       device: true,

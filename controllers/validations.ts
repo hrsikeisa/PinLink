@@ -1,10 +1,10 @@
 import prisma from 'lib/prisma'
 
 export const validateEmail = async (email: string): Promise<boolean> => {
-  const draftUser = await prisma.pinlinkDraft.findFirst({
+  const draftUser = await prisma.pinLinkDraft.findFirst({
     where: { email },
   })
-  const prodUser = await prisma.pinlinkProd.findFirst({
+  const prodUser = await prisma.pinLinkProd.findFirst({
     where: { email },
   })
 
@@ -14,7 +14,7 @@ export const validateEmail = async (email: string): Promise<boolean> => {
 }
 
 export const validateUsername = async (username: string, userId?: string): Promise<boolean> => {
-  const draftUser = await prisma.pinlinkDraft.findFirst({
+  const draftUser = await prisma.pinLinkDraft.findFirst({
     where: { username },
     select: {
       username: true,
@@ -22,7 +22,7 @@ export const validateUsername = async (username: string, userId?: string): Promi
     },
   })
 
-  const prodUser = await prisma.pinlinkProd.findFirst({
+  const prodUser = await prisma.pinLinkProd.findFirst({
     where: { username },
     select: {
       username: true,
