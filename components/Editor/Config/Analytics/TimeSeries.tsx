@@ -68,7 +68,7 @@ const TimeSeries = ({ timeSeries }: TimeSeriesProps) => {
           {
             data: PAGE_DATA.map((item) => item.views),
             label: 'Page Views',
-            borderColor: 'rgb(214,188,250)',
+            borderColor: 'rgb(244, 140, 119)',
             backgroundColor: 'rgba(0, 0, 0, 0.1)',
             pointRadius: 0,
           },

@@ -52,7 +52,7 @@ const Fonts = ({ user, setUser }: FontProps) => {
       }
     }
   }
-  const changeColor = (color: (typeof COLORS)[0]) => {
+  const changeColor = (color: typeof COLORS[0]) => {
     setTextColor(color)
     setUser({ ...user, customColor: color.key })
   }
@@ -99,12 +99,12 @@ const Fonts = ({ user, setUser }: FontProps) => {
                   }
                   borderColor={
                     textColor.key === color.key && color.key === 'white'
-                      ? 'blue.400'
-                      : textColor.key === 'blue.400'
+                      ? 'red.300'
+                      : textColor.key === 'red.300'
                       ? 'black'
                       : textColor.key !== color.key && color.key === 'white'
                       ? 'black'
-                      : 'blue.400'
+                      : 'red.300'
                   }
                   borderWidth={
                     textColor.key !== color.key && color.key === 'white' ? '1px' : '3.2px'

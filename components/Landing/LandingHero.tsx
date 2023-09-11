@@ -4,7 +4,7 @@ const LandingHero = () => {
     <VStack spacing={4} align="center">
       <VStack spacing={0} align="center">
         <Heading fontSize={{ base: '3xl', md: '5xl', lg: '7xl' }}>A Simple Link-In-Bio.</Heading>
-        <Heading fontSize={{ base: '3xl', md: '5xl', lg: '7xl' }}>Free and Opensource.</Heading>
+        <Heading fontSize={{ base: '3xl', md: '5xl', lg: '7xl' }}>Free Forever.</Heading>
       </VStack>
 
       <Text
@@ -13,13 +13,13 @@ const LandingHero = () => {
         textAlign="center"
         pb={2}
       >
-        Custom Domains. 9+ Themes. Detailed Analytics. Blazing Fast.
+        9+ Themes. Detailed Analytics. Blazing Fast.
       </Text>
 
       <Button
-        bg="#7F61D3"
-        _hover={{ bg: '#6F54BA' }}
-        _active={{ bg: '#5B4499' }}
+        bg="#f48c77"
+        _hover={{ bg: '#f16b50' }}
+        _active={{ bg: '#ef5a3c' }}
         rounded="18px"
         fontSize="xl"
         fontWeight="medium"
@@ -30,7 +30,7 @@ const LandingHero = () => {
         as="a"
         href="/signup"
       >
-        Create your Pinlink
+        Create your PinLink
       </Button>
       <Link color="gray.500" fontSize="lg" textAlign="center" cursor={'pointer'} href="/login">
         Login

@@ -7,9 +7,7 @@ import { trackClientEvent } from 'lib/posthog'
 import { PosthogEvents } from 'consts/posthog'
 
 import LandingFooter from 'components/Landing/LandingFooter'
-import LandingOpenSource from 'components/Landing/LandingOpenSource'
 import LandingAnalytics from 'components/Landing/LandingAnalytics'
-import LandingDomains from 'components/Landing/LandingDomains'
 import LandingExamples from 'components/Landing/LandingExamples'
 import LandingHero from 'components/Landing/LandingHero'
 import LandingDemo from 'components/Landing/LandingDemo'
@@ -39,9 +37,7 @@ const Home = () => {
 
         <VStack spacing={32}>
           <LandingExamples />
-          <LandingDomains />
           <LandingAnalytics />
-          <LandingOpenSource />
           <LandingFooter />
         </VStack>
       </VStack>

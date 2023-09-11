@@ -19,7 +19,7 @@ const Themes = ({ user, setUser }: ThemesProps) => {
                 border={user.theme === i.key ? '2px' : 'none'}
                 borderWidth={user.theme === i.key ? '2px' : 'none'}
                 rounded="lg"
-                borderColor="blue.500"
+                borderColor="red.300"
                 p={1}
                 onClick={() => {
                   setUser({ ...user, theme: i.key })

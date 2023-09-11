@@ -80,9 +80,9 @@ const LandingExamples = () => {
       </SimpleGrid>
 
       <Button
-        bg="#7F61D3"
-        _hover={{ bg: '#6F54BA' }}
-        _active={{ bg: '#5B4499' }}
+        bg="#f48c77"
+        _hover={{ bg: '#f16b50' }}
+        _active={{ bg: '#ef5a3c' }}
         transitionDuration="300ms"
         rounded="18px"
         fontSize={{ base: 'xl', lg: '2xl' }}

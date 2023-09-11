@@ -18,7 +18,6 @@ export type TUser = {
   links: TLink[]
   icons: TIcon[]
   isNewUser: boolean
-  vcf?: Vcf | null
   domains?: string[]
   isPreview?: boolean
 }
@@ -43,17 +42,7 @@ export type TUserContext = {
   user: TUser | null
   setUser: React.Dispatch<React.SetStateAction<TUser | null>>
 }
-export type TPublishedPinLinkContext = {
-  publishedPinLink: TUser | null
-  setPublishedPinLink: React.Dispatch<React.SetStateAction<TUser | null>>
-}
-
-export type Vcf = {
-  firstName?: string
-  lastName?: string
-  birthday?: string
-  email?: string
-  phone?: string
-  company?: string
-  note?: string
+export type TPinLinkProdContext = {
+  pinLinkProd: TUser | null
+  setPinLinkProd: React.Dispatch<React.SetStateAction<TUser | null>>
 }

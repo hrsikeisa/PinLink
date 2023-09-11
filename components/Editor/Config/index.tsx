@@ -1,4 +1,4 @@
-import { Box, Tabs, TabList, Tab, TabPanel, TabPanels, Text } from '@chakra-ui/react'
+import { Box, Tabs, TabList, TabIndicator, Tab, TabPanel, TabPanels, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 import { TUser } from 'types/user'
@@ -40,7 +40,7 @@ const Config = ({ user, setUser, route }: ConfigProps) => {
               </Tab>
             ))}
           </TabList>
-
+          <TabIndicator mt="-2px" height="2px" bg="red.300" borderRadius="1px" />
           <TabPanels>
             {[Links, Design, Analyitcs, Settings].map((Component) => (
               <TabPanel p={0} py={6}>

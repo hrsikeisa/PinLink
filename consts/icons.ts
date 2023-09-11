@@ -18,13 +18,6 @@ const ICON_OPTIONS = [
     prefill: 'https://snapchat.com/add/',
     username: 'theo',
   },
-  // TODO: vcf is nuked rn. only here for those who have it already
-  {
-    name: 'Contact',
-    icon: 'FaRegUserCircle',
-    prefill: 'CONTACT',
-    username: 'theo',
-  },
   {
     name: 'Discord',
     icon: 'FaDiscord',

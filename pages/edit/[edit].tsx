@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useContext, useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
@@ -6,7 +5,7 @@ import { useRouter } from 'next/router'
 import EditorHeader from 'components/Headers/EditorHeader'
 import LoadingScreen from 'components/Auth/LoadingScreen'
 
-import { TPinLinkProdContext, TUserContext } from 'types/user'
+import { TPinLinkProdContext, TUser, TUserContext } from 'types/user'
 import { PinLinkProdContext, UserContext } from 'pages/_app'
 import NoUserScreen from 'components/Auth/NoUserScreen'
 import { NextSeo } from 'next-seo'
@@ -23,16 +22,6 @@ const Edit = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    window.dataLayer = window.dataLayer || []
-    function gtag() {
-      dataLayer.push(arguments)
-    }
-    gtag('js', new Date())
-
-    gtag('event', 'conversion', {
-      send_to: `${process.env.NEXT_PUBLIC_GTAG}/${process.env.NEXT_PUBLIC_GTAG_CONVERSION}`,
-    })
-
     trackClientEvent({ event: PosthogEvents.HIT_EDIT, id: user?.id })
   }, [])
 
@@ -53,9 +42,9 @@ const Edit = () => {
 
   return (
     <>
-      <NextSeo title="Pinlink | Edit" />
+      <NextSeo title="PinLink | Edit" />
       <EditorHeader user={user} />
-      <Editor user={user} setUser={setUser} pinLInkProd={pinLinkProd} route={route} />
+      <Editor user={user} setUser={setUser} pinLinkProd={pinLinkProd as TUser} route={route} />
     </>
   )
 }

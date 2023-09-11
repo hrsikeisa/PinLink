@@ -21,7 +21,7 @@ const AddLinks = ({ user, setUser }: AddLinksProps) => {
         <Button
           w="full"
           rounded="lg"
-          bgGradient="linear(to-l, blue.500, purple.500)"
+          bgGradient="linear(to-l,red.400,orange.300)"
           _focus={{ boxShadow: 'none' }}
           _hover={{ opacity: 0.8 }}
           _active={{ opacity: 0.6 }}
