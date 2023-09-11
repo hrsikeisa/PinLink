@@ -18,3 +18,6 @@ A simple, free, and opensource alternative to Linktree.
 - [Vercel](https://vercel.com/)
 
 ## 📺 Demo Video
+
+https://github.com/2hari/pinlink/assets/73457568/61a39285-e597-4e05-8890-9e9c4802548d
+
