@@ -32,7 +32,7 @@ const LandingExamples = () => {
               href={`/${user.username}`}
             >
               <Box
-                bg="#7F61D3"
+                bg="#f27b63"
                 rounded="full"
                 px={{ base: 0, lg: 2 }}
                 py={{ base: 0, lg: 1 }}

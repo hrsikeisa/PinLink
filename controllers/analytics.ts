@@ -24,7 +24,7 @@ type TLinkHit = {
 
 export const AddPageHit = async ({ pinLinkId, username, referrer, ip, device }: TPageHit) => {
   console.log('ADDDING page hit')
-  console.log('pinlinkId:', pinLinkId)
+  console.log('pinLinkId:', pinLinkId)
   console.log('referrer:', referrer)
   console.log('ip:', ip)
   console.log('device:', device)

@@ -5,7 +5,7 @@ import { AddPageHit } from 'controllers/analytics'
 import { Device } from 'types/utils'
 
 const RequestSchema = z.object({
-  pinlinkId: z.string(),
+  pinLinkId: z.string(),
   username: z.string(),
   referrer: z.string().optional(),
   device: z.nativeEnum(Device).optional(),
@@ -20,9 +20,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // premmaturely return 200 to prevent blocking the client from loading
   res.status(200).json({ success: true })
 
-  const { pinlinkId, referrer, device, ip, username } = request.data
+  const { pinLinkId, referrer, device, ip, username } = request.data
 
-  await AddPageHit({ pinlinkId, referrer, ip, device, username })
+  await AddPageHit({ pinLinkId, referrer, ip, device, username })
 }
 
 export default handler
