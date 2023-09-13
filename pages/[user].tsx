@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   await AddPageHit({
-    pinlinkId: user.id,
+    pinLinkId: user.id,
     username: user.username || '',
     device: getDeviceType(context.req.headers['user-agent']),
     referrer: context.req.headers.referer || '',
