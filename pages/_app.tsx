@@ -23,6 +23,15 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLa
   const [pinLinkProd, setPinLinkProd] = useState<TUser | null>(null)
 
   const getUserSession = async () => {
+    if (window.location.pathname.includes(`/exampleEditor`)) {
+      setUser(dummyUser)
+      setPinLinkProd(dummyPinLinkProd)
+      console.log(
+        '%cUser updated for dummy editor',
+        'font-size: 18px; font-weight: bold; color: #ff6600;'
+      )
+      return
+    }
     if (!window.location.pathname.includes(`/edit`)) return
     console.log('%cGetting user session', 'color: white; background-color: black; font-size: 20px')
     const start = new Date().getTime()
