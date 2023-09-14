@@ -9,6 +9,7 @@ import Order from './Order'
 type LinksProps = {
   user: TUser
   setUser: (user: TUser) => void
+  isExampleEditor: boolean
 }
 
 const Links = ({ user, setUser }: LinksProps) => {

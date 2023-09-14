@@ -27,7 +27,7 @@ const PinLink = (user: TUser) => {
       <NextSeo
         title={`${user.name || user.username} | pinlink`}
         description={`Check out ${user.name || user.username}'s PinLink to grab their links!`}
-        canonical={`https://pinlink.com/${user.username}`}
+        canonical={`https://pinlink.vercel.app/${user.username}`}
       />
       <User user={user} />
     </>
@@ -38,6 +38,8 @@ export default PinLink
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const start = Date.now()
+  if (context.query.user === 'exampleEditor')
+    return { redirect: { destination: '/exampleEditor/links', permanent: false } }
   if (context.query.user === 'edit')
     return { redirect: { destination: '/edit/links', permanent: false } }
 

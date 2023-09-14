@@ -12,9 +12,10 @@ type ConfigProps = {
   user: TUser
   setUser: (user: TUser) => void
   route: string
+  isExampleEditor: boolean
 }
 
-const Config = ({ user, setUser, route }: ConfigProps) => {
+const Config = ({ user, setUser, route, isExampleEditor = false }: ConfigProps) => {
   const router = useRouter()
 
   const ROUTES = ['links', 'design', 'analytics', 'settings']
@@ -25,7 +26,13 @@ const Config = ({ user, setUser, route }: ConfigProps) => {
       <Box borderLeft="1px" borderColor={{ base: 'transparent', lg: 'gray.200' }} w="full">
         <Tabs
           defaultIndex={defaultIndex}
-          onChange={(index) => router.push({ pathname: `/edit/${ROUTES[index]}` })}
+          onChange={(index) => {
+            if (isExampleEditor) {
+              router.push({ pathname: `/exampleEditor/${ROUTES[index]}` })
+              return
+            }
+            router.push({ pathname: `/edit/${ROUTES[index]}` })
+          }}
           px={{ base: 0, md: 28 }}
         >
           <TabList justifyContent="space-between" w="full" mt={12}>
@@ -44,7 +51,7 @@ const Config = ({ user, setUser, route }: ConfigProps) => {
           <TabPanels>
             {[Links, Design, Analyitcs, Settings].map((Component) => (
               <TabPanel p={0} py={6}>
-                <Component user={user} setUser={setUser} />
+                <Component user={user} setUser={setUser} isExampleEditor={isExampleEditor} />
               </TabPanel>
             ))}
           </TabPanels>

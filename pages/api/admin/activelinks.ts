@@ -43,9 +43,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   })
 
-  const activePinLinksData = activePinLinks.map((pinlink) => ({
-    name: pinlink.name,
-    totalPageHits: pinlink.pageHits.length,
+  const activePinLinksData = activePinLinks.map((pinLink) => ({
+    name: pinLink.name,
+    totalPageHits: pinLink.pageHits.length,
   }))
 
   // Sort by totalPageHits in descending order

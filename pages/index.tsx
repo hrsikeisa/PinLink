@@ -21,7 +21,7 @@ const Home = () => {
       <NextSeo
         title="Pinlink - Simple & Free Link-In-Bio"
         description="Pinlink is an opensource Linktree alternative that allows you to share all your links in one place. Add custom domains, view click statistics and more."
-        canonical="https://pinlink.com"
+        canonical="https://pinlink.vercel.app"
       />
 
       <VStack

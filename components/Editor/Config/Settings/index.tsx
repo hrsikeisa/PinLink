@@ -5,7 +5,15 @@ import { TUser } from 'types/user'
 import AddDomain from './AddDomain'
 import Redirect from './Redirect'
 
-const Settings = ({ user, setUser }: { user: TUser; setUser: (user: TUser) => void }) => {
+const Settings = ({
+  user,
+  setUser,
+  isExampleEditor,
+}: {
+  user: TUser
+  setUser: (user: TUser) => void
+  isExampleEditor: boolean
+}) => {
   return (
     <VStack align="left" spacing={4}>
       <AddDomain user={user} setUser={setUser} />

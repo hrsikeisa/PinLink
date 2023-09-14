@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { debounce, isEqual, omit } from 'lodash'
 import { signOut } from 'next-auth/react'
-
+import NextLink from 'next/link'
 import {
   Spacer,
   Avatar,
@@ -26,7 +26,13 @@ import SharePinLinkModal from 'components/Modals/SharePinLinkModal'
 import { PinLinkProdContext } from 'pages/_app'
 import { useRouter } from 'next/router'
 
-const EditorHeader = ({ user }: { user: TUser | null }) => {
+const EditorHeader = ({
+  user,
+  isExampleEditor = false,
+}: {
+  user: TUser | null
+  isExampleEditor: boolean
+}) => {
   const { pinLinkProd } = useContext(PinLinkProdContext) as TPinLinkProdContext
 
   const toast = useToast()
@@ -77,7 +83,7 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
   }
 
   useEffect(() => {
-    if (!user || !pinLinkProd) return
+    if (!user || !pinLinkProd || isExampleEditor) return
     checkChanges()
   }, [user, pinLinkProd])
 
@@ -112,31 +118,53 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
             />
             <Spacer />
             <HStack spacing={{ base: 4, md: 6 }} justifyContent="flex-end">
-              <HStack spacing={1}>
-                <Link
-                  fontSize={{ base: 'sm', md: 'md' }}
-                  width={{ base: '10rem', md: 'full' }}
-                  textAlign="right"
-                  onClick={publishPinLink}
-                >
-                  {saveState === 'saved' && 'Published! 🎉'}
-                  {saveState === 'saving' && 'Publishing...'}
-                  {saveState === 'unsaved' && 'Click to publish 🌍'}
-                  {!saveState && 'Checking for changes...'}
-                </Link>
-              </HStack>
-              <HStack spacing={1}>
-                <Button
-                  onClick={() => setModalOpen(true)}
-                  px={6}
-                  py={2}
-                  size="sm"
-                  colorScheme="gray"
-                  variant="outline"
-                >
-                  Share
-                </Button>
-              </HStack>
+              {!isExampleEditor && (
+                <HStack spacing={1}>
+                  <Link
+                    fontSize={{ base: 'sm', md: 'md' }}
+                    width={{ base: '10rem', md: 'full' }}
+                    textAlign="right"
+                    onClick={publishPinLink}
+                  >
+                    {saveState === 'saved' && 'Published! 🎉'}
+                    {saveState === 'saving' && 'Publishing...'}
+                    {saveState === 'unsaved' && 'Click to publish 🌍'}
+                    {!saveState && 'Checking for changes...'}
+                  </Link>
+                </HStack>
+              )}
+              {!isExampleEditor && (
+                <HStack spacing={1}>
+                  <Button
+                    onClick={() => setModalOpen(true)}
+                    px={6}
+                    py={2}
+                    size="sm"
+                    colorScheme="gray"
+                    variant="outline"
+                  >
+                    Share
+                  </Button>
+                </HStack>
+              )}
+              {isExampleEditor && (
+                <HStack spacing={1}>
+                  <NextLink href="/signup">
+                    <Button
+                      px={6}
+                      py={2}
+                      size="md"
+                      bg="red.300"
+                      textColor="white"
+                      _focus={{ outline: 'none' }}
+                      _hover={{ opacity: 0.8 }}
+                      _active={{ opacity: 0.5 }}
+                    >
+                      Sign Up
+                    </Button>
+                  </NextLink>
+                </HStack>
+              )}
               <Popover trigger="hover">
                 <PopoverTrigger>
                   <Avatar
@@ -148,27 +176,32 @@ const EditorHeader = ({ user }: { user: TUser | null }) => {
                     src={user?.pfp}
                   />
                 </PopoverTrigger>
-                <Portal>
-                  <PopoverContent
-                    mt={4}
-                    mr={{ base: 2, md: 12 }}
-                    pr={24}
-                    w="fit"
-                    _focus={{ outline: 'none' }}
-                  >
-                    <PopoverCloseButton _focus={{ outline: 'none' }} />
-                    <PopoverBody _focus={{ outline: 'none' }} display="block">
-                      <VStack align="left" w="fit">
-                        <Link onClick={() => window.open(`/${user?.username}`)} colorScheme="blue">
-                          View Profile
-                        </Link>
-                        <Link onClick={logout} colorScheme="blue">
-                          Log out
-                        </Link>
-                      </VStack>
-                    </PopoverBody>
-                  </PopoverContent>
-                </Portal>
+                {!isExampleEditor && (
+                  <Portal>
+                    <PopoverContent
+                      mt={4}
+                      mr={{ base: 2, md: 12 }}
+                      pr={24}
+                      w="fit"
+                      _focus={{ outline: 'none' }}
+                    >
+                      <PopoverCloseButton _focus={{ outline: 'none' }} />
+                      <PopoverBody _focus={{ outline: 'none' }} display="block">
+                        <VStack align="left" w="fit">
+                          <Link
+                            onClick={() => window.open(`/${user?.username}`)}
+                            colorScheme="blue"
+                          >
+                            View Profile
+                          </Link>
+                          <Link onClick={logout} colorScheme="blue">
+                            Log out
+                          </Link>
+                        </VStack>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Portal>
+                )}
               </Popover>
             </HStack>
           </SimpleGrid>

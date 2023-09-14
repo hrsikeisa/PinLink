@@ -14,9 +14,16 @@ type GetStartedModalProps = {
   setModalOpen: (modalOpen: boolean) => void
   user: TUser
   setUser: (user: TUser) => void
+  isExampleEditor: boolean
 }
 
-const GetStartedModal = ({ modalOpen, setModalOpen, user, setUser }: GetStartedModalProps) => {
+const GetStartedModal = ({
+  modalOpen,
+  setModalOpen,
+  user,
+  setUser,
+  isExampleEditor = false,
+}: GetStartedModalProps) => {
   const toast = useToast()
   const [username, setUsername] = useState<string>('')
   const [isValid, setIsValid] = useState<boolean | null>(null)

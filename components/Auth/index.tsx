@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import { useRouter } from 'next/router'
 import {
   Button,
   Heading,
@@ -27,6 +27,7 @@ const PROVIDERS = [{ name: 'Google', icon: FaGoogle, color: 'blue.500' }]
 
 const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
   const toast = useToast()
+  const router = useRouter()
 
   const [email, setEmail] = useState<string>('')
   const [emailLoading, setEmailLoading] = useState<boolean>(false)
@@ -69,27 +70,27 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
     }, 500)
   }
 
-  const authEmail = async () => {
-    const BASE_URL = getBaseURL(window.location.hostname)
+  // const authEmail = async () => {
+  //   const BASE_URL = getBaseURL(window.location.hostname)
 
-    setEmailLoading(true)
+  //   setEmailLoading(true)
 
-    const isValid = await validate(email)
-    if (!isValid) {
-      setEmailLoading(false)
-      toast({ title: 'Invalid email', status: 'error', duration: 3000 })
-      return
-    }
+  //   const isValid = await validate(email)
+  //   if (!isValid) {
+  //     setEmailLoading(false)
+  //     toast({ title: 'Invalid email', status: 'error', duration: 3000 })
+  //     return
+  //   }
 
-    await signIn('email', {
-      email,
-      callbackUrl: `${BASE_URL}/edit`,
-    })
+  //   await signIn('email', {
+  //     email,
+  //     callbackUrl: `${BASE_URL}/edit`,
+  //   })
 
-    setTimeout(() => {
-      setEmailLoading(false)
-    }, 1000)
-  }
+  //   setTimeout(() => {
+  //     setEmailLoading(false)
+  //   }, 1000)
+  // }
 
   useEffect(() => {
     trackClientEvent({ event: PosthogEvents.HIT_AUTH })
@@ -137,7 +138,7 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
             </Text>
           </VStack>
 
-          <VStack spacing={3}>
+          {/* <VStack spacing={3}>
             <Input
               _hover={{ bg: 'gray.100' }}
               _focus={{
@@ -168,7 +169,19 @@ const AuthComponent = ({ isLogin }: { isLogin: boolean }) => {
             >
               Continue <Box as={FaArrowRight} pl={2} size="20px" />
             </Button>
-          </VStack>
+          </VStack> */}
+
+          <Button
+            w="full"
+            textColor="white"
+            _focus={{ outline: 'none' }}
+            _hover={{ opacity: 0.8 }}
+            _active={{ opacity: 0.5 }}
+            bg="red.300"
+            onClick={() => router.push(`/exampleEditor`)}
+          >
+            Try the link customizer without an account <Box as={FaArrowRight} pl={2} size="20px" />
+          </Button>
 
           <HStack>
             <Box bg="gray.300" w="full" h="1px" />

@@ -35,9 +35,10 @@ const Verify = () => {
             We sent you an email!
           </Heading>
           <Text fontSize={{ base: 'sm', md: 'xl' }} color="gray.700">
-            Check your inbox for an email from <Link color="blue.500">auth@mail.pinlink.com</Link>{' '}
-            and click the verification link to login to your account. If you don't see the email,
-            please check your spam folder :)
+            Check your inbox for an email from{' '}
+            <Link color="blue.500">auth@mail.pinlink.vercel.app</Link> and click the verification
+            link to login to your account. If you don't see the email, please check your spam folder
+            :)
           </Text>
         </VStack>
       </VStack>

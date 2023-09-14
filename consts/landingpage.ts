@@ -1,8 +1,3 @@
-export const LANDING_DOMAINS = [
-  { text: 'pin.lol/theo', color: 'D2F2F4' },
-  { text: 'pin.bio/owen', color: 'DAD2F1' },
-  { text: 'pinlink.com/luke', color: 'D8FED2' },
-]
 export const LANDING_ANALYITCS = {
   success: true,
   totalHits: 203,
@@ -175,15 +170,15 @@ export const LANDING_ANALYITCS = {
 
 export const USERS = [
   {
-    username: 'Finn',
+    username: 'finn',
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694258253/apps/pinlink-web/vlkf0f829adcoawqb7yl.jpg',
   },
   {
-    username: 'Emma',
+    username: 'emma',
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694258253/apps/pinlink-web/vaemmonunc4ffre0edhx.jpg',
   },
   {
-    username: 'Noah',
+    username: 'sean',
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694258253/apps/pinlink-web/l4x7u08pajpoc3uigzk8.jpg',
   },
 
@@ -192,19 +187,19 @@ export const USERS = [
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694258254/apps/pinlink-web/j61zjvsvm617hvpsdp9q.jpg',
   },
   {
-    username: 'Hana',
+    username: 'hana',
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694259048/apps/pinlink-web/q7ymbqe3ilaqsjydqd9h.jpg',
   },
   {
-    username: 'Jack',
+    username: 'jack',
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694258253/apps/pinlink-web/gw4mn4ywvcwqmh80jdaq.jpg',
   },
   {
-    username: 'Ahmed',
+    username: 'ahmed',
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694258548/apps/pinlink-web/nebjjwabtwq9bk3bgycx.jpg',
   },
   {
-    username: 'Ava',
+    username: 'ava',
     pfp: 'https://res.cloudinary.com/harihari/image/upload/v1694258253/apps/pinlink-web/zbf5cp4owqoebejuxbnc.jpg',
   },
 ]

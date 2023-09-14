@@ -83,7 +83,7 @@ const EditUsername = ({ user, setUser }: { user: TUser; setUser: (user: TUser) =
       <Text fontWeight="semibold">PinLink Username</Text>
       <Box>
         <InputGroup size="sm">
-          <InputLeftAddon children="pinlink.com/" />
+          <InputLeftAddon children="pinlink.vercel.app/" />
           <Input
             _hover={{
               bg: 'gray.100',

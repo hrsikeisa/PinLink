@@ -7,8 +7,9 @@ import TrafficSources from './TrafficSources'
 import TimeSeries from './TimeSeries'
 
 import { AnalyticAPIReturnData } from 'pages/api/analytics/getdata'
+import { LANDING_ANALYITCS } from 'consts/landingpage'
 
-const Analyitcs = () => {
+const Analyitcs = ({ isExampleEditor }: { isExampleEditor: boolean }) => {
   const [analyticData, setAnalyticData] = useState<AnalyticAPIReturnData | null>(null)
 
   const hitAPI = async () => {
@@ -18,16 +19,28 @@ const Analyitcs = () => {
   }
 
   useEffect(() => {
-    if (analyticData === null) hitAPI()
+    if (analyticData === null && !isExampleEditor) hitAPI()
   }, [])
 
   return (
     <>
       <VStack align="left" spacing={4}>
-        <PageViews totalPageViews={analyticData?.totalHits} />
-        <TimeSeries timeSeries={analyticData?.timeSeriesData} />
-        <LinkClicks totalLinkClicks={analyticData?.topLinks} />
-        <TrafficSources trafficSources={analyticData?.trafficSources} />
+        <PageViews
+          totalPageViews={isExampleEditor ? LANDING_ANALYITCS.totalHits : analyticData?.totalHits}
+        />
+        <TimeSeries
+          timeSeries={
+            isExampleEditor ? LANDING_ANALYITCS.timeSeriesData : analyticData?.timeSeriesData
+          }
+        />
+        <LinkClicks
+          totalLinkClicks={isExampleEditor ? LANDING_ANALYITCS.topLinks : analyticData?.topLinks}
+        />
+        <TrafficSources
+          trafficSources={
+            isExampleEditor ? LANDING_ANALYITCS.trafficSources : analyticData?.trafficSources
+          }
+        />
       </VStack>
     </>
   )

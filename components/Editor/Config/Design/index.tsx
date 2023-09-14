@@ -9,6 +9,7 @@ import Themes from './Themes'
 type DesignProps = {
   user: TUser
   setUser: (userData: TUser) => void
+  isExampleEditor: boolean
 }
 
 const Design = ({ user, setUser }: DesignProps) => {
