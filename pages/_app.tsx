@@ -1,6 +1,6 @@
 import 'styles/globals.css'
 import { createContext, ReactElement, ReactNode, useEffect, useState } from 'react'
-
+import { useRouter } from 'next/router'
 import { ChakraProvider } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
@@ -16,20 +16,12 @@ export const PinLinkProdContext = createContext({})
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page)
+  const router = useRouter()
 
   const [user, setUser] = useState<TUser | null>(null)
   const [pinLinkProd, setPinLinkProd] = useState<TUser | null>(null)
 
   const getUserSession = async () => {
-    if (window.location.pathname.includes(`/exampleEditor`)) {
-      setUser(dummyUser)
-      setPinLinkProd(dummyPinLinkProd)
-      console.log(
-        '%cUser updated for dummy editor',
-        'font-size: 18px; font-weight: bold; color: #ff6600;'
-      )
-      return
-    }
     if (!window.location.pathname.includes(`/edit`)) return
     console.log('%cGetting user session', 'color: white; background-color: black; font-size: 20px')
     const start = new Date().getTime()
@@ -50,11 +42,29 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     )
   }
 
-  useEffect(() => {
-    if (user === null) getUserSession()
+  const initializeExampleEditor = () => {
+    if (router.pathname.includes(`exampleEditor`)) {
+      setUser(dummyUser)
+      setPinLinkProd(dummyPinLinkProd)
+      console.log(
+        '%cUser updated for dummy editor',
+        'font-size: 18px; font-weight: bold; color: #ff6600;'
+      )
+      return
+    }
+    return
+  }
 
+  useEffect(() => {
+    if (user === null) {
+      getUserSession()
+    }
     initializePostHog()
   }, [])
+
+  useEffect(() => {
+    initializeExampleEditor()
+  }, [router])
 
   return (
     <ChakraProvider>
