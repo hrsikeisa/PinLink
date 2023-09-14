@@ -2,6 +2,9 @@
 
 A simple Linktree like application.
 
+## 📺 Demo Video
+https://github.com/2hari/PinLink/assets/73457568/cf6320a3-8c22-42a3-8e09-e1566be81205
+
 ## 💡 Features
 
 - [x] Share links in one place
@@ -17,7 +20,6 @@ A simple Linktree like application.
 - [PostgreSQL](https://www.postgresql.org/)
 - [Vercel](https://vercel.com/)
 
-## 📺 Demo Video
-https://github.com/2hari/PinLink/assets/73457568/cf6320a3-8c22-42a3-8e09-e1566be81205
+
 
 
