@@ -1,4 +1,6 @@
 import { VStack } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 import { NextSeo } from 'next-seo'
 
@@ -13,6 +15,14 @@ import LandingHero from 'components/Landing/LandingHero'
 import LandingDemo from 'components/Landing/LandingDemo'
 
 const Home = () => {
+  const { status } = useSession()
+  const router = useRouter()
+
+  if (status === 'authenticated') {
+    router.push('/edit/links')
+    return
+  }
+
   useEffect(() => {
     trackClientEvent({ event: PosthogEvents.HIT_LANDING })
   }, [])

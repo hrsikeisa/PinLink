@@ -1,6 +1,7 @@
 import 'styles/globals.css'
 import { createContext, ReactElement, ReactNode, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { SessionProvider } from 'next-auth/react'
 import { ChakraProvider } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
@@ -14,7 +15,7 @@ type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout }
 export const UserContext = createContext({})
 export const PinLinkProdContext = createContext({})
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page)
   const router = useRouter()
 
@@ -67,15 +68,17 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   }, [router])
 
   return (
-    <ChakraProvider>
-      {getLayout(
-        <UserContext.Provider value={{ user, setUser }}>
-          <PinLinkProdContext.Provider value={{ pinLinkProd, setPinLinkProd }}>
-            <Component {...pageProps} />
-          </PinLinkProdContext.Provider>
-        </UserContext.Provider>
-      )}
-    </ChakraProvider>
+    <SessionProvider session={session}>
+      <ChakraProvider>
+        {getLayout(
+          <UserContext.Provider value={{ user, setUser }}>
+            <PinLinkProdContext.Provider value={{ pinLinkProd, setPinLinkProd }}>
+              <Component {...pageProps} />
+            </PinLinkProdContext.Provider>
+          </UserContext.Provider>
+        )}
+      </ChakraProvider>
+    </SessionProvider>
   )
 }
 
